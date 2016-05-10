@@ -25,17 +25,17 @@ class AsyncEventsExample {
         return eventMulticaster;
     }
 
-    static class TodoEvent {
+    static class TodoCreatedEvent {
 
         private String title;
 
-        public TodoEvent(String title) {
+        public TodoCreatedEvent(String title) {
             this.title = title;
         }
 
         @Override
         public String toString() {
-            return "TodoEvent{" +
+            return "TodoCreatedEvent{" +
                     "title='" + title + '\'' +
                     '}';
         }
@@ -47,23 +47,23 @@ class AsyncEventsExample {
         static Logger LOGGER = LoggerFactory.getLogger(TodoEventListener.class);
 
         @EventListener
-        void handle(TodoEvent event) {
+        void handle(TodoCreatedEvent event) {
             LOGGER.info("'{}' handling todo '{}'", Thread.currentThread(), event);
         }
 
         @EventListener
-        void handle2(TodoEvent event) {
+        void handle2(TodoCreatedEvent event) {
             LOGGER.info("'{}' handling todo '{}'", Thread.currentThread(), event);
         }
 
         @EventListener
-        void handle3(TodoEvent event) {
+        void handle3(TodoCreatedEvent event) {
             LOGGER.info("'{}' handling todo '{}'", Thread.currentThread(), event);
             throw new IllegalStateException("error occurred");
         }
 
         @EventListener
-        void handle4(TodoEvent event) {
+        void handle4(TodoCreatedEvent event) {
             LOGGER.info("'{}' handling todo '{}'", Thread.currentThread(), event);
         }
     }
@@ -81,7 +81,7 @@ class AsyncEventsExample {
 
         public void create(String todo) {
             LOGGER.info("thread '{}' creating todo '{}'", Thread.currentThread(), todo);
-            publisher.publishEvent(new TodoEvent(todo));
+            publisher.publishEvent(new TodoCreatedEvent(todo));
         }
     }
 
