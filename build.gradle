@@ -1,0 +1,39 @@
+buildscript {
+	ext {
+		springBootVersion = '1.4.0.M2'
+	}
+	repositories {
+		mavenCentral()
+		maven { url "https://repo.spring.io/snapshot" }
+		maven { url "https://repo.spring.io/milestone" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+
+jar {
+	baseName = 'application-events-with-spring'
+	version = '0.0.1-SNAPSHOT'
+}
+
+springBoot.mainClass = 'com.zoltanaltfatter.AsyncEventsApplication'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+	maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://repo.spring.io/milestone" }
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-jdbc')
+	runtime('com.h2database:h2')
+
+	testCompile('org.springframework.boot:spring-boot-starter-test') 
+}

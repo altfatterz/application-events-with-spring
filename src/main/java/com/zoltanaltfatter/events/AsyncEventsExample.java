@@ -1,0 +1,93 @@
+package com.zoltanaltfatter.events;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.event.ApplicationEventMulticaster;
+import org.springframework.context.event.EventListener;
+import org.springframework.context.event.SimpleApplicationEventMulticaster;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.scheduling.support.TaskUtils;
+import org.springframework.stereotype.Component;
+
+@SpringBootApplication
+class AsyncEventsExample {
+
+    // tell Spring to handle events asynchronously (not in the caller's thread) by redefining the
+    // ApplicationEventMulticaster bean with id applicationEventMulticaster. With java config the method name can specify the id.
+    @Bean
+    ApplicationEventMulticaster applicationEventMulticaster() {
+        SimpleApplicationEventMulticaster eventMulticaster = new SimpleApplicationEventMulticaster();
+        eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
+        eventMulticaster.setErrorHandler(TaskUtils.LOG_AND_SUPPRESS_ERROR_HANDLER);
+        return eventMulticaster;
+    }
+
+    static class TodoEvent {
+
+        private String title;
+
+        public TodoEvent(String title) {
+            this.title = title;
+        }
+
+        @Override
+        public String toString() {
+            return "TodoEvent{" +
+                    "title='" + title + '\'' +
+                    '}';
+        }
+    }
+
+    @Component
+    static class TodoEventListener {
+
+        static Logger LOGGER = LoggerFactory.getLogger(TodoEventListener.class);
+
+        @EventListener
+        void handle(TodoEvent event) {
+            LOGGER.info("'{}' handling todo '{}'", Thread.currentThread(), event);
+        }
+
+        @EventListener
+        void handle2(TodoEvent event) {
+            LOGGER.info("'{}' handling todo '{}'", Thread.currentThread(), event);
+        }
+
+        @EventListener
+        void handle3(TodoEvent event) {
+            LOGGER.info("'{}' handling todo '{}'", Thread.currentThread(), event);
+            throw new IllegalStateException("error occurred");
+        }
+
+        @EventListener
+        void handle4(TodoEvent event) {
+            LOGGER.info("'{}' handling todo '{}'", Thread.currentThread(), event);
+        }
+    }
+
+    @Component
+    static class TodoEventProducer {
+
+        static Logger LOGGER = LoggerFactory.getLogger(TodoEventProducer.class);
+
+        final ApplicationEventPublisher publisher;
+
+        public TodoEventProducer(ApplicationEventPublisher publisher) {
+            this.publisher = publisher;
+        }
+
+        public void create(String todo) {
+            LOGGER.info("thread '{}' creating todo '{}'", Thread.currentThread(), todo);
+            publisher.publishEvent(new TodoEvent(todo));
+        }
+    }
+
+}
+
+
+
+
+
