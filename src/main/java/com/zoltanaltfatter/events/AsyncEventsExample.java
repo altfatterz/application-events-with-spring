@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 @SpringBootApplication
 class AsyncEventsExample {
 
+    static final Logger logger = LoggerFactory.getLogger(AsyncEventsExample.class);
+
     // tell Spring to handle events asynchronously (not in the caller's thread) by redefining the
     // ApplicationEventMulticaster bean with id applicationEventMulticaster. With java config the method name can specify the id.
     @Bean
@@ -44,34 +46,30 @@ class AsyncEventsExample {
     @Component
     static class TodoEventListener {
 
-        static Logger LOGGER = LoggerFactory.getLogger(TodoEventListener.class);
-
         @EventListener
         void handle(TodoCreatedEvent event) {
-            LOGGER.info("'{}' handling todo '{}'", Thread.currentThread(), event);
+            logger.info("'{}' handling todo '{}'", Thread.currentThread(), event);
         }
 
         @EventListener
         void handle2(TodoCreatedEvent event) {
-            LOGGER.info("'{}' handling todo '{}'", Thread.currentThread(), event);
+            logger.info("'{}' handling todo '{}'", Thread.currentThread(), event);
         }
 
         @EventListener
         void handle3(TodoCreatedEvent event) {
-            LOGGER.info("'{}' handling todo '{}'", Thread.currentThread(), event);
+            logger.info("'{}' handling todo '{}'", Thread.currentThread(), event);
             throw new IllegalStateException("error occurred");
         }
 
         @EventListener
         void handle4(TodoCreatedEvent event) {
-            LOGGER.info("'{}' handling todo '{}'", Thread.currentThread(), event);
+            logger.info("'{}' handling todo '{}'", Thread.currentThread(), event);
         }
     }
 
     @Component
     static class TodoEventProducer {
-
-        static Logger LOGGER = LoggerFactory.getLogger(TodoEventProducer.class);
 
         final ApplicationEventPublisher publisher;
 
@@ -80,7 +78,7 @@ class AsyncEventsExample {
         }
 
         public void create(String todo) {
-            LOGGER.info("thread '{}' creating todo '{}'", Thread.currentThread(), todo);
+            logger.info("thread '{}' creating todo '{}'", Thread.currentThread(), todo);
             publisher.publishEvent(new TodoCreatedEvent(todo));
         }
     }

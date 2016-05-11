@@ -18,6 +18,8 @@ import java.util.Date;
 @SpringBootApplication
 class TransactionalEventsExample {
 
+    static final Logger logger = LoggerFactory.getLogger(TransactionalEventsExample.class);
+
     static class TaskScheduledEvent {
 
         private String taskId;
@@ -82,31 +84,29 @@ class TransactionalEventsExample {
     @Component
     static class TaskListeners {
 
-        final Logger LOGGER = LoggerFactory.getLogger(TaskListeners.class);
-
         @EventListener
         public void handleWithoutTransaction(TaskScheduledEvent event) {
-            LOGGER.info("{} thread -- handling todo event without transaction", Thread.currentThread().getName());
+            logger.info("{} thread -- handling todo event without transaction", Thread.currentThread().getName());
         }
 
         @TransactionalEventListener
         public void handleAfterCommit(TaskScheduledEvent event) {
-            LOGGER.info("{} thread -- handling todo event after commit", Thread.currentThread().getName());
+            logger.info("{} thread -- handling todo event after commit", Thread.currentThread().getName());
         }
 
         @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
         public void handleBeforeCommit(TaskScheduledEvent event) {
-            LOGGER.info("{} thread -- handling todo event before commit", Thread.currentThread().getName());
+            logger.info("{} thread -- handling todo event before commit", Thread.currentThread().getName());
         }
 
         @TransactionalEventListener(phase = TransactionPhase.AFTER_COMPLETION)
         public void handleAfterCompletion(TaskScheduledEvent event) {
-            LOGGER.info("{} thread -- handling todo event after completion", Thread.currentThread().getName());
+            logger.info("{} thread -- handling todo event after completion", Thread.currentThread().getName());
         }
 
         @TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK)
         public void handleAfterRollback(TaskScheduledEvent event) {
-            LOGGER.info("{} thread -- handling todo event after rollback", Thread.currentThread().getName());
+            logger.info("{} thread -- handling todo event after rollback", Thread.currentThread().getName());
         }
 
     }

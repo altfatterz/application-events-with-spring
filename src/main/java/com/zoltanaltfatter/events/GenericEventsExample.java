@@ -3,7 +3,6 @@ package com.zoltanaltfatter.events;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.ResolvableType;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Component;
 @SpringBootApplication
 class GenericEventsExample {
 
-    private static Logger logger = LoggerFactory.getLogger(GenericEventsExample.class);
+    static final Logger logger = LoggerFactory.getLogger(GenericEventsExample.class);
 
     static class EntityCreatedEvent<T> implements ResolvableTypeProvider {
 

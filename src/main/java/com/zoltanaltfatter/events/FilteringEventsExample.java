@@ -15,6 +15,8 @@ import java.util.Date;
 @SpringBootApplication
 class FilteringEventsExample {
 
+    static final Logger logger = LoggerFactory.getLogger(FilteringEventsExample.class);
+
     enum Priority {
         NONE, LOW, MEDIUM, HIGH
     }
@@ -77,34 +79,30 @@ class FilteringEventsExample {
     @Component
     static class ReminderListener {
 
-        static Logger LOGGER = LoggerFactory.getLogger(AsyncEventsExample.TodoEventListener.class);
-
         @EventListener(condition = "#event.priority.name() == 'HIGH'")
         public void handleHighPriorityReminders(ReminderCreatedEvent event) {
-            LOGGER.info("handle high priority reminder created events '{}'", event);
+            logger.info("handle high priority reminder created events '{}'", event);
         }
 
         @EventListener
         public void handleReminderCreatedEvents(ReminderCreatedEvent event) {
-            LOGGER.info("handle all reminder created events '{}'", event);
+            logger.info("handle all reminder created events '{}'", event);
         }
 
         @EventListener({ReminderCreatedEvent.class, ReminderActivatedEvent.class})
         public void handleAllEvents() {
-            LOGGER.info("handle all reminder events");
+            logger.info("handle all reminder events");
         }
 
         @EventListener(condition = "#bidCreatedEvent.amount >= 100")
         public void handleHighBids(BidCreatedEvent bidCreatedEvent) {
-            LOGGER.info("handle high bid event of '{}'", bidCreatedEvent.amount);
+            logger.info("handle high bid event of '{}'", bidCreatedEvent.amount);
         }
 
     }
 
     @Component
     static class ReminderProducer {
-
-        static Logger LOGGER = LoggerFactory.getLogger(AsyncEventsExample.TodoEventProducer.class);
 
         final ApplicationEventPublisher publisher;
 
@@ -114,13 +112,13 @@ class FilteringEventsExample {
 
         public void create(String title, Priority priority) {
             ReminderCreatedEvent event = new ReminderCreatedEvent(title, priority);
-            LOGGER.info("producer created '{}' event'", event);
+            logger.info("producer created '{}' event'", event);
             publisher.publishEvent(event);
         }
 
         public void activate(String title) {
             ReminderActivatedEvent event = new ReminderActivatedEvent(title, new Date());
-            LOGGER.info("producer created '{}' event", event);
+            logger.info("producer created '{}' event", event);
             publisher.publishEvent(event);
         }
 
