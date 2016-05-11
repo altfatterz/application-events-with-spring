@@ -11,7 +11,7 @@ import static com.zoltanaltfatter.events.FilteringEventsExample.Priority.HIGH;
 import static com.zoltanaltfatter.events.FilteringEventsExample.Priority.LOW;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = AsyncEventsExample.class)
+@SpringBootTest(classes = FilteringEventsExample.class)
 public class FilteringEventsExampleTests {
 
     @Autowired

@@ -2,6 +2,7 @@ package com.zoltanaltfatter.events;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.util.Date;
 /**
  * @author Zoltan Altfatter
  */
+@SpringBootApplication
 class TransactionalEventsExample {
 
     static class TaskScheduledEvent {

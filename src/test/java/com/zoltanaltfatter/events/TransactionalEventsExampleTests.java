@@ -12,7 +12,7 @@ import static com.zoltanaltfatter.events.TransactionalEventsExample.TaskProducer
  * @author Zoltan Altfatter
   */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = TransactionalEventsExample.class)
 public class TransactionalEventsExampleTests {
 
     @Autowired
