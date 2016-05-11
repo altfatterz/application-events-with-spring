@@ -21,7 +21,7 @@ class GenericEventsExample {
 
     static class EntityCreatedEvent<T> implements ResolvableTypeProvider {
 
-        private Object source;
+        private T source;
 
         public EntityCreatedEvent(T source) {
             this.source = source;

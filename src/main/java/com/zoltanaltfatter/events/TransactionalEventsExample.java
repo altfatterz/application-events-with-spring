@@ -89,7 +89,7 @@ class TransactionalEventsExample {
             LOGGER.info("{} thread -- handling todo event without transaction", Thread.currentThread().getName());
         }
 
-        @TransactionalEventListener(fallbackExecution = true)
+        @TransactionalEventListener
         public void handleAfterCommit(TaskScheduledEvent event) {
             LOGGER.info("{} thread -- handling todo event after commit", Thread.currentThread().getName());
         }
