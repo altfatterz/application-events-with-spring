@@ -22,7 +22,6 @@ class FilteringEventsExample {
     static class ReminderCreatedEvent {
 
         private String title;
-
         private Priority priority;
 
         public ReminderCreatedEvent(String title, Priority priority) {
@@ -62,6 +61,19 @@ class FilteringEventsExample {
         }
     }
 
+    static class BidCreatedEvent {
+
+        private int amount;
+
+        public BidCreatedEvent(int amount) {
+            this.amount = amount;
+        }
+
+        public int getAmount() {
+            return amount;
+        }
+    }
+
     @Component
     static class ReminderListener {
 
@@ -80,6 +92,11 @@ class FilteringEventsExample {
         @EventListener({ReminderCreatedEvent.class, ReminderActivatedEvent.class})
         public void handleAllEvents() {
             LOGGER.info("handle all reminder events");
+        }
+
+        @EventListener(condition = "#bidCreatedEvent.amount >= 100")
+        public void handleHighBids(BidCreatedEvent bidCreatedEvent) {
+            LOGGER.info("handle high bid event of '{}'", bidCreatedEvent.amount);
         }
 
     }
@@ -105,6 +122,10 @@ class FilteringEventsExample {
             ReminderActivatedEvent event = new ReminderActivatedEvent(title, new Date());
             LOGGER.info("producer created '{}' event", event);
             publisher.publishEvent(event);
+        }
+
+        public void createBid(int amount) {
+            publisher.publishEvent(new BidCreatedEvent(amount));
         }
     }
 

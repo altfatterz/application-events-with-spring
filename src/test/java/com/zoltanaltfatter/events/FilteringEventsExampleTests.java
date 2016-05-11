@@ -15,14 +15,22 @@ import static com.zoltanaltfatter.events.FilteringEventsExample.Priority.LOW;
 public class FilteringEventsExampleTests {
 
     @Autowired
-    ReminderProducer reminderProducer;
+    ReminderProducer producer;
 
     @Test
     public void events() throws InterruptedException {
-        reminderProducer.create("foo", HIGH);
-        reminderProducer.create("bar", LOW);
+        producer.create("foo", HIGH);
+        producer.create("bar", LOW);
 
-        reminderProducer.activate("foo");
+        producer.activate("foo");
+
+        // A chance to see the logging message produced by LoggingErrorHandler before the JVM exists.
+        Thread.sleep(1000);
+    }
+
+    @Test
+    public void highBid() throws InterruptedException {
+        producer.createBid(100);
 
         // A chance to see the logging message produced by LoggingErrorHandler before the JVM exists.
         Thread.sleep(1000);

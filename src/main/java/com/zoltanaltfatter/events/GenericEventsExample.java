@@ -19,16 +19,28 @@ class GenericEventsExample {
 
     private static Logger logger = LoggerFactory.getLogger(GenericEventsExample.class);
 
-    static class EntityCreatedEvent<T> extends ApplicationEvent implements ResolvableTypeProvider {
+    static class EntityCreatedEvent<T> implements ResolvableTypeProvider {
 
-        public EntityCreatedEvent(T entity) {
-            super(entity);
+        private Object source;
+
+        public EntityCreatedEvent(T source) {
+            this.source = source;
         }
 
         @Override
         public ResolvableType getResolvableType() {
             return ResolvableType.forClassWithGenerics(getClass(),
-                    ResolvableType.forInstance(getSource()));
+                    ResolvableType.forInstance(source));
+        }
+    }
+
+    // due to type erasure we cannot publish such an event
+    static class EntityCreatedEvent2<T> {
+
+        private Object source;
+
+        public EntityCreatedEvent2(T source) {
+            this.source = source;
         }
     }
 
@@ -56,9 +68,8 @@ class GenericEventsExample {
 
         @EventListener
         public void handle(EntityCreatedEvent<Bid> bidCreatedEvent) {
-            logger.info("handle bid created event '{}'", bidCreatedEvent.getSource());
+            logger.info("handle bid created event '{}'", bidCreatedEvent);
         }
-
     }
 
     @Component
