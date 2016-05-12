@@ -1,7 +1,7 @@
-package com.zoltanaltfatter.events;
+package com.zoltanaltfatter.events.generics;
 
-import com.zoltanaltfatter.events.GenericEventsExample.Bid;
-import com.zoltanaltfatter.events.GenericEventsExample.BidProducer;
+import com.zoltanaltfatter.events.generics.GenericEventsExample.Bid;
+import com.zoltanaltfatter.events.generics.GenericEventsExample.BidProducer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +22,6 @@ public class GenericEventsExampleTests {
     public void create() throws InterruptedException {
         bidProducer.create(new Bid(100));
 
-        // A chance to see the logging message produced by LoggingErrorHandler before the JVM exists.
-        Thread.sleep(1000);
     }
 
 

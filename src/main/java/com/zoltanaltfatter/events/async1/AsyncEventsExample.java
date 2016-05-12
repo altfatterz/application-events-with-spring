@@ -1,4 +1,4 @@
-package com.zoltanaltfatter.events;
+package com.zoltanaltfatter.events.async1;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,6 +81,7 @@ class AsyncEventsExample {
             logger.info("thread '{}' creating todo '{}'", Thread.currentThread(), todo);
             publisher.publishEvent(new TodoCreatedEvent(todo));
         }
+
     }
 
 }

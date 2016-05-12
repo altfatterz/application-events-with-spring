@@ -1,4 +1,4 @@
-package com.zoltanaltfatter.events;
+package com.zoltanaltfatter.events.transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

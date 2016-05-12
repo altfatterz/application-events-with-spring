@@ -1,6 +1,6 @@
-package com.zoltanaltfatter.events;
+package com.zoltanaltfatter.events.async1;
 
-import com.zoltanaltfatter.events.AsyncEventsExample.TodoEventProducer;
+import com.zoltanaltfatter.events.async1.AsyncEventsExample.TodoEventProducer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
