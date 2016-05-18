@@ -22,9 +22,6 @@ public class AsyncEventListenerExampleTests {
 
         producer.create("foo");
 
-        //producer.asynMethod();
-
-
         // A chance to see the logging messages before the JVM exists.
         Thread.sleep(2000);
 

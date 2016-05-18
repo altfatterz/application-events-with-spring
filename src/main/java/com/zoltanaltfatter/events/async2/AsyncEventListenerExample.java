@@ -71,11 +71,6 @@ class AsyncEventListenerExample {
         public void create(String id) {
             publisher.publishEvent(new MedicalRecordUpdatedEvent(id));
         }
-
-        @Async
-        public void asynMethod() {
-            logger.info("running async method with thread '{}'", Thread.currentThread());
-        }
     }
 
 }
